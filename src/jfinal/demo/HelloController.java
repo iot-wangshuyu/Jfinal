@@ -1,5 +1,7 @@
 package jfinal.demo;
 
+import java.util.List;
+
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
 import com.jfinal.core.JFinal;
@@ -8,6 +10,7 @@ import com.jfinal.json.FastJson;
 import com.jfinal.kit.HttpKit;
 
 import jfinal.demo.bean.User;
+import jfinal.demo.dao.UserDao;
 
 /**
  * @ClassName: HelloController 
@@ -36,6 +39,12 @@ public class HelloController extends Controller {
 		
 //		User user =getModel(User.class);
 		renderJson(user);
+	}
+	
+	public void save() {
+		boolean save = new UserDao().set("name", "wang").save();
+		List<UserDao> find = new UserDao().find("select name,pass_word from t_user");
+		renderText("执行结果："+find);
 	}
 	
 	public static void main(String[] args) {

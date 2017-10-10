@@ -4,6 +4,13 @@ import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
 import com.jfinal.core.Controller;
 
+/**
+ * @ClassName: AuthInterceptor 
+ * @Description: 拦截器
+ * @author shuyu.wang
+ * @date 2017年10月10日 下午4:59:11 
+ * @version V1.0
+ */
 public class AuthInterceptor implements Interceptor {
 
 	@Override

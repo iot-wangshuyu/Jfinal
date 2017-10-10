@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
-import com.jfinal.core.JFinal;
 import com.jfinal.ext.interceptor.POST;
 import com.jfinal.json.FastJson;
 import com.jfinal.kit.HttpKit;
@@ -19,6 +18,7 @@ import jfinal.demo.bean.User;
 import jfinal.demo.dao.BlogDao;
 import jfinal.demo.dao.UserDao;
 import jfinal.demo.dao.UserRoleDao;
+import jgfinal.demo.utils.LoginValidator;
 
 /**
  * @ClassName: HelloController 
@@ -164,6 +164,26 @@ public class HelloController extends Controller {
 		Page<Record> paginate = Db.paginate(1, 2, sqlPara);
 		
 		renderJson(paginate);
+	}
+	
+	/** 
+	* @Title: login 
+	* @Description: 校验器测试 
+	* @param  
+	* @return void 
+	* @throws 
+	*/
+	@Before(LoginValidator.class)
+	public void login() {
+		String username = getPara("username");
+		String password = getPara("password");
+		
+		UserDao findFirst = UserDao.dao.findFirst("select * from t_user where name=? and pass_word=?", username,password);
+	    if (findFirst!=null) {
+			renderText("登录成功");
+		}else {
+			renderText("登录失败");
+		}
 	}
 	
 //	public static void main(String[] args) {

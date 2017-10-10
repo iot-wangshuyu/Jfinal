@@ -13,6 +13,7 @@ import com.jfinal.plugin.c3p0.C3p0Plugin;
 import com.jfinal.template.Engine;
 
 import jgfinal.demo.utils.AdminRoutes;
+import jgfinal.demo.utils.AuthInterceptor;
 import jgfinal.demo.utils.DbMappingKit;
 
 public class DemoConfig extends JFinalConfig {
@@ -22,7 +23,7 @@ public class DemoConfig extends JFinalConfig {
 		me.setDevMode(true);
 		PropKit.use("config.properties"); // 数据库配置文件，发觉不管放到哪里都可以，没有路径  
 	}
-
+ 
 	// 配置访问路由
 	public void configRoute(Routes me) {
 		//方式一：直接配置文件
@@ -68,6 +69,8 @@ public class DemoConfig extends JFinalConfig {
 
 	// 全局拦截器配置
 	public void configInterceptor(Interceptors me) {
+		// 给所有请求加上拦截器处理
+		me.add(new AuthInterceptor());
 	}
 
 	public void configHandler(Handlers me) {

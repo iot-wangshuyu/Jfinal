@@ -10,6 +10,7 @@ import com.jfinal.kit.PathKit;
 import com.jfinal.kit.PropKit;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.c3p0.C3p0Plugin;
+import com.jfinal.plugin.redis.RedisPlugin;
 import com.jfinal.template.Engine;
 
 import jgfinal.demo.utils.AdminRoutes;
@@ -63,7 +64,12 @@ public class DemoConfig extends JFinalConfig {
 //		arp.addMapping("t_role", RoleDao.class);
 //		arp.addMapping("t_user_role", "user_id, role_id", UserRoleDao.class);
 		// 方式二：配置数据表映射写到一个文件中  
-         DbMappingKit.mapping(arp);  
+         DbMappingKit.mapping(arp); 
+         
+         
+      // 用于缓存bbs模块的redis服务
+         RedisPlugin bbsRedis = new RedisPlugin("bbs", "localhost");
+         me.add(bbsRedis);
 
 	}
 

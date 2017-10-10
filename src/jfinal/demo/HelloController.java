@@ -13,6 +13,8 @@ import com.jfinal.plugin.activerecord.IAtom;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.plugin.activerecord.SqlPara;
+import com.jfinal.plugin.redis.Cache;
+import com.jfinal.plugin.redis.Redis;
 
 import jfinal.demo.bean.User;
 import jfinal.demo.dao.BlogDao;
@@ -184,6 +186,21 @@ public class HelloController extends Controller {
 		}else {
 			renderText("登录失败");
 		}
+	}
+	
+	/** 
+	* @Title: cahe 
+	* @Description: redis缓存使用
+	* @param  
+	* @return void 
+	* @throws 
+	*/
+	public void cahe() {
+		 // 获取名称为bbs的Redis Cache对象
+		 Cache bbsCache = Redis.use("bbs");
+		 bbsCache.set("key1", "value");
+		 Object object = bbsCache.get("key1");
+		 renderText("缓存内容"+object);
 	}
 	
 //	public static void main(String[] args) {

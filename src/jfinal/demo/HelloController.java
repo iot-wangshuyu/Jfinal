@@ -13,6 +13,7 @@ import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.IAtom;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
+import com.jfinal.plugin.activerecord.SqlPara;
 
 import jfinal.demo.bean.User;
 import jfinal.demo.dao.BlogDao;
@@ -136,6 +137,33 @@ public class HelloController extends Controller {
 		String sql="SELECT tu.name,tr.role_name FROM t_role tr INNER JOIN t_user_role tur ON tr.id=tur.role_id INNER JOIN t_user tu ON tur.user_id=tu.id";
 		List<UserRoleDao> find = UserRoleDao.dao.find(sql);
 		renderJson(find);
+	}
+	
+	/** 
+	* @Title: queryBySql 
+	* @Description: 根据文件中的sql语句执行相关指令
+	* @param  
+	* @return void 
+	* @throws 
+	*/
+	public void queryBySql() {
+		String sql=Db.getSql("jfinal.queryBySql");
+		List<Record> find = Db.find(sql);
+		renderJson(find);
+	}
+	
+	/** 
+	* @Title: queryBySqlPage 
+	* @Description:分页查询权限是管理员的全部用户
+	* @param  
+	* @return void 
+	* @throws 
+	*/
+	public void queryBySqlPage() {
+		SqlPara sqlPara=Db.getSqlPara("jfinal.queryUser",1);
+		Page<Record> paginate = Db.paginate(1, 2, sqlPara);
+		
+		renderJson(paginate);
 	}
 	
 //	public static void main(String[] args) {

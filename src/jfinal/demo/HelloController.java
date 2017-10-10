@@ -17,6 +17,7 @@ import com.jfinal.plugin.activerecord.Record;
 import jfinal.demo.bean.User;
 import jfinal.demo.dao.BlogDao;
 import jfinal.demo.dao.UserDao;
+import jfinal.demo.dao.UserRoleDao;
 
 /**
  * @ClassName: HelloController 
@@ -107,17 +108,39 @@ public class HelloController extends Controller {
 		renderText("执行结果"+tx);
 	}
 	
+	/** 
+	* @Title: relation 
+	* @Description: 关联表查询
+	* @param  
+	* @return void 
+	* @throws 
+	*/
 	public void relation() {
 		String sql="SELECT tu.name,tb.blog_name,tb.blog_body FROM t_user tu INNER JOIN t_blog tb ON tu.id=tb.user_id";
 		List<BlogDao> find = new BlogDao().dao().find(sql);
 		renderJson(find);
 	}
-	
-	
-	
-	public static void main(String[] args) {
-//		JFinal.start("src/main/webapp",80,"/");
-		JFinal.start("WebRoot", 80, "/", 5);
+	/** 
+	* @Title: saveRPK 
+	* @Description:联合主键的使用
+	* @param  
+	* @return void 
+	* @throws 
+	*/
+	public void saveRPK() {
+		boolean save = UserRoleDao.dao.set("user_id","2").set("role_id", "1").save();
+		renderText("执行结果"+save);
 	}
+	
+	public void queryUserRole() {
+		String sql="SELECT tu.name,tr.role_name FROM t_role tr INNER JOIN t_user_role tur ON tr.id=tur.role_id INNER JOIN t_user tu ON tur.user_id=tu.id";
+		List<UserRoleDao> find = UserRoleDao.dao.find(sql);
+		renderJson(find);
+	}
+	
+//	public static void main(String[] args) {
+//		JFinal.start("src/main/webapp",80,"/");
+//		JFinal.start("WebRoot", 80, "/", 5);
+//	}
 
 }

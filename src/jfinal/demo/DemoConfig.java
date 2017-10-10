@@ -6,21 +6,19 @@ import com.jfinal.config.Interceptors;
 import com.jfinal.config.JFinalConfig;
 import com.jfinal.config.Plugins;
 import com.jfinal.config.Routes;
+import com.jfinal.kit.PropKit;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.c3p0.C3p0Plugin;
-import com.jfinal.plugin.druid.DruidPlugin;
 import com.jfinal.template.Engine;
 
-import jfinal.demo.bean.RoleDao;
-import jfinal.demo.bean.User;
-import jfinal.demo.dao.BlogDao;
-import jfinal.demo.dao.UserDao;
+import jgfinal.demo.utils.DbMappingKit;
 
 public class DemoConfig extends JFinalConfig {
 	// 配置常量值
 	public void configConstant(Constants me) {
 		// 运行在开发模式下
 		me.setDevMode(true);
+		PropKit.use("config.properties"); // 数据库配置文件，发觉不管放到哪里都可以，没有路径  
 	}
 
 	// 配置访问路由
@@ -36,19 +34,19 @@ public class DemoConfig extends JFinalConfig {
 		// DruidPlugin dp = new DruidPlugin("jdbc:mysql://localhost/jfinal", "root",
 		// "123456");
 		// me.add(dp);
-		// ActiveRecordPlugin arp = new ActiveRecordPlugin(dp);
-		// me.add(arp);
-		// arp.addMapping("user", User.class);
-		// arp.addMapping("t_user", "id",User.class);
-		C3p0Plugin cp = new C3p0Plugin("jdbc:mysql://localhost/jfinal", "root", "123456");
+		C3p0Plugin cp = new C3p0Plugin(PropKit.get("jdbcUrl"), PropKit  
+                .get("username"), PropKit.get("password").trim());
 		me.add(cp);
 		ActiveRecordPlugin arp = new ActiveRecordPlugin(cp);
 		arp.setShowSql(true);
 		me.add(arp);
-		// 添加类和表的映射关系
-		arp.addMapping("t_user", UserDao.class);
-		arp.addMapping("t_blog", BlogDao.class);
-		arp.addMapping("t_role", RoleDao.class);
+		//方式一： 添加类和表的映射关系
+//		arp.addMapping("t_user", UserDao.class);
+//		arp.addMapping("t_blog", BlogDao.class);
+//		arp.addMapping("t_role", RoleDao.class);
+//		arp.addMapping("t_user_role", "user_id, role_id", UserRoleDao.class);
+		// 方式二：配置数据表映射写到一个文件中  
+         DbMappingKit.mapping(arp);  
 
 	}
 

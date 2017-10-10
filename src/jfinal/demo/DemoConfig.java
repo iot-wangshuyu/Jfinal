@@ -41,6 +41,7 @@ public class DemoConfig extends JFinalConfig {
 	                "root", "123456");
 	        me.add(cp);
 	        ActiveRecordPlugin arp = new ActiveRecordPlugin(cp);
+	        arp.setShowSql(true);
 	        me.add(arp);
 	        arp.addMapping("t_user", UserDao.class);
 

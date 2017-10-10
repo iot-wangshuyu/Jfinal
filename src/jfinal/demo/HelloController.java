@@ -15,6 +15,7 @@ import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 
 import jfinal.demo.bean.User;
+import jfinal.demo.dao.BlogDao;
 import jfinal.demo.dao.UserDao;
 
 /**
@@ -84,6 +85,13 @@ public class HelloController extends Controller {
 		renderJson(find);
 	}
 	
+	/** 
+	* @Title: update 
+	* @Description: 事务操作
+	* @param  
+	* @return void 
+	* @throws 
+	*/
 	public void update() {
 		boolean tx = Db.tx(new IAtom() {
 			@Override
@@ -97,6 +105,12 @@ public class HelloController extends Controller {
 			}
 		});
 		renderText("执行结果"+tx);
+	}
+	
+	public void relation() {
+		String sql="SELECT tu.name,tb.blog_name,tb.blog_body FROM t_user tu INNER JOIN t_blog tb ON tu.id=tb.user_id";
+		List<BlogDao> find = new BlogDao().dao().find(sql);
+		renderJson(find);
 	}
 	
 	

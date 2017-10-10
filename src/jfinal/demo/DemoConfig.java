@@ -11,7 +11,9 @@ import com.jfinal.plugin.c3p0.C3p0Plugin;
 import com.jfinal.plugin.druid.DruidPlugin;
 import com.jfinal.template.Engine;
 
+import jfinal.demo.bean.RoleDao;
 import jfinal.demo.bean.User;
+import jfinal.demo.dao.BlogDao;
 import jfinal.demo.dao.UserDao;
 
 public class DemoConfig extends JFinalConfig {
@@ -31,19 +33,22 @@ public class DemoConfig extends JFinalConfig {
 
 	// 插件配置
 	public void configPlugin(Plugins me) {
-//		DruidPlugin dp = new DruidPlugin("jdbc:mysql://localhost/jfinal", "root", "123456");
-//		me.add(dp);
-//		ActiveRecordPlugin arp = new ActiveRecordPlugin(dp);
-//		me.add(arp);
-//		arp.addMapping("user", User.class);
-//		arp.addMapping("t_user", "id",User.class);
-		 C3p0Plugin cp = new C3p0Plugin("jdbc:mysql://localhost/jfinal",
-	                "root", "123456");
-	        me.add(cp);
-	        ActiveRecordPlugin arp = new ActiveRecordPlugin(cp);
-	        arp.setShowSql(true);
-	        me.add(arp);
-	        arp.addMapping("t_user", UserDao.class);
+		// DruidPlugin dp = new DruidPlugin("jdbc:mysql://localhost/jfinal", "root",
+		// "123456");
+		// me.add(dp);
+		// ActiveRecordPlugin arp = new ActiveRecordPlugin(dp);
+		// me.add(arp);
+		// arp.addMapping("user", User.class);
+		// arp.addMapping("t_user", "id",User.class);
+		C3p0Plugin cp = new C3p0Plugin("jdbc:mysql://localhost/jfinal", "root", "123456");
+		me.add(cp);
+		ActiveRecordPlugin arp = new ActiveRecordPlugin(cp);
+		arp.setShowSql(true);
+		me.add(arp);
+		// 添加类和表的映射关系
+		arp.addMapping("t_user", UserDao.class);
+		arp.addMapping("t_blog", BlogDao.class);
+		arp.addMapping("t_role", RoleDao.class);
 
 	}
 

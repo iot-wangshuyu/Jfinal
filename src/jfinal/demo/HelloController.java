@@ -42,18 +42,20 @@ public class HelloController extends Controller {
 		String name = getPara("name");
 		renderText("输入参数："+name);
 	}
-	@Before(POST.class)
+//	@Before(POST.class)
 	public void getJson() {
-		String jsonString = HttpKit.readData(getRequest());
-		User user = FastJson.getJson().parse(jsonString, User.class);
+//		String jsonString = HttpKit.readData(getRequest());
+//		User user = FastJson.getJson().parse(jsonString, User.class);
 		
-//		User user =getModel(User.class);
+		UserDao user =getModel(UserDao.class);
+		user =getModel(UserDao.class,"");
+		
 		renderJson(user);
 	}
 	
 	//基于Model模式
 	public void save() {
-		boolean save = new UserDao().set("name", "wang").save();
+		new UserDao().set("name", "wang").save();
 		List<UserDao> find = new UserDao().find("select name,pass_word from t_user");
 		renderText("执行结果："+find);
 	}

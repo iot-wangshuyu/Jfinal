@@ -76,7 +76,7 @@ public class DemoConfig extends JFinalConfig {
 	// 全局拦截器配置
 	public void configInterceptor(Interceptors me) {
 		// 给所有请求加上拦截器处理
-		me.add(new AuthInterceptor());
+//		me.add(new AuthInterceptor());
 	}
 
 	public void configHandler(Handlers me) {
